@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>page</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+      <link rel="stylesheet" href="/static/color.css">
+    <style>
+    text.highcharts-credits {
+        display: none !important;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+    <div class="sidebar" data-background-color="white" data-active-color="danger">
+
+
+
+    	<div class="sidebar-wrapper">
+            <div class="logo">
+                <a href="/" class="simple-text">
+                    System Monitor
+                </a>
+            </div>
+
+            <ul class="nav">
+                <li class="active">
+                    <a href="index.html">
+                        <i class="ti-panel"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="user.html">
+                        <i class="ti-user"></i>
+                        <p>User Profile</p>
+                    </a>
+                </li>
+
+
+
+
+
+
+            </ul>
+    	</div>
+    </div>
+
+    <div class="main-panel">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar bar1"></span>
+                        <span class="icon-bar bar2"></span>
+                        <span class="icon-bar bar3"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Dashboard</a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="ti-panel"></i>
+								<p>Stats</p>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="ti-bell"></i>
+                                    <p class="notification" id="notic">5</p>
+									<p>Notifications</p>
+									<b class="caret"></b>
+                              </a>
+                              <ul class="dropdown-menu" id="notih">
+                              </ul>
+                        </li>
+						<li>
+                            <a href="#">
+								<i class="ti-settings"></i>
+								<p>Settings</p>
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+
+
+        <div class="content">
+            <div class="container-fluid">
+
+                <div class="row">
+                  <div class="col-lg-3 col-sm-6">
+                    <div class="card">
+                        <div class="content">
+                          <div class="card-header">
+                            IP
+                          </div>
+                          <div class="card-body">
+                            <div class="row">
+
+                              <div class="col-sm-5">
+                                  <div class="icon-big icon-warning text-center">
+                                    <svg style="width: 64px;height: 64px;" viewBox="0 0 24 24">
+                                      <path fill="#767676" d="M13,18H14A1,1 0 0,1 15,19H22V21H15A1,1 0 0,1 14,22H10A1,1 0 0,1 9,21H2V19H9A1,1 0 0,1 10,18H11V16H4A1,1 0 0,1 3,15V11A1,1 0 0,1 4,10H20A1,1 0 0,1 21,11V15A1,1 0 0,1 20,16H13V18M4,2H20A1,1 0 0,1 21,3V7A1,1 0 0,1 20,8H4A1,1 0 0,1 3,7V3A1,1 0 0,1 4,2M9,6H10V4H9V6M9,14H10V12H9V14M5,4V6H7V4H5M5,12V14H7V12H5Z"></path>
+                                    </svg>
+                                  </div>
+                                </div><div class="col-sm-7">
+                                  <h5 class="card-title" id="ip_text">10.104.25.112</h5>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                   </div>
+
+                   <div class="col-lg-3 col-sm-6">
+                     <div class="card">
+                         <div class="content">
+                           <div class="card-header">
+                             Users
+                           </div>
+                           <div class="card-body">
+                             <div class="row">
+
+                               <div class="col-sm-5">
+                                   <div class="icon-big icon-warning text-center">
+                                     <svg style="width: 64px;height: 64px;" viewBox="0 0 24 24">
+                                       <path fill="#767676" d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" ></path>
+                                     </svg>
+                                   </div>
+                                 </div><div class="col-sm-7">
+                                   <h5 class="card-title" id="user_text">system</h5>
+                                 </div>
+                             </div>
+                           </div>
+                         </div>
+                       </div>
+                    </div>
+
+                    <div class="col-lg-3 col-sm-6">
+                      <div class="card">
+                          <div class="content">
+                            <div class="card-header">
+                              Processes
+                            </div>
+                            <div class="card-body">
+                              <div class="row">
+
+                                <div class="col-sm-5">
+                                    <div class="icon-big icon-warning text-center">
+                                      <svg style="width: 64px;height: 64px;" viewBox="0 0 24 24">
+                                        <path fill="#767676" d="M19,19H5V5H19M19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3M10,8V16L15,12L10,8Z" ></path>
+                                      </svg>
+                                    </div>
+                                  </div><div class="col-sm-7">
+                                    <h5 class="card-title" id="proc_count">0</h5>
+                                  </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                     </div>
+
+                     <div class="col-lg-3 col-sm-6">
+                       <div class="card">
+                           <div class="content">
+                             <div class="card-header">
+                               Card
+                             </div>
+                             <div class="card-body">
+                               <div class="row">
+
+                                 <div class="col-sm-5">
+                                     <div class="icon-big icon-warning text-center">
+                                       <svg style="width: 64px;height: 64px;" viewBox="0 0 24 24">
+                                         <path fill="#767676" d="M19,19H5V5H19M19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3M10,8V16L15,12L10,8Z" ></path>
+                                       </svg>
+                                     </div>
+                                   </div><div class="col-sm-7">
+                                     <h5 class="card-title" id="dunno">0</h5>
+                                   </div>
+                               </div>
+                             </div>
+                           </div>
+                         </div>
+                      </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+
+                            <div class="content">
+                                <div id="live-container">live</div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card ">
+                            <div class="content">
+                                <div id="cpu-container">col-sm-8</div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <footer class="footer">
+            <div class="container-fluid">
+                <nav class="pull-left">
+                    <ul>
+
+                        <li>
+                            <a href="/">
+                                Index
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </footer>
+
+    </div>
+</div>
+        <!--
+{#        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">#}
+{#          <ul class="nav navbar-nav">#}
+{#            <li><a href="#">A link</a></li>#}
+{#          </ul>#}
+{#        </div>#}
+      </div>
+    </div>
+
+-->
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/highcharts-more.js"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+
+    <script src="/static/chart.js"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  </body>
+</html>
