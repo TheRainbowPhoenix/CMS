@@ -37,10 +37,10 @@ def users():
 def pids():
     return pext.pids()
 
-print(virtual_memory())
-print(cpu_percent())
-print(disk_partitions())
-print(disk_partitions()[0].mountpoint)
-print(str(disk_usage(disk_partitions()[0].mountpoint)))
-print(users())
-print(pids())
+# print(virtual_memory())
+# print(cpu_percent())
+# print(disk_partitions())
+# print(disk_partitions()[0].mountpoint)
+# print(str(disk_usage(disk_partitions()[0].mountpoint)))
+# print(users())
+# print(pids())

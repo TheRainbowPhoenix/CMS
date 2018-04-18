@@ -8,7 +8,7 @@ try:
 	import psutil
 	NO_PS = 0
 except:
-	import psutill
+	import psutill as psutil
 	NO_PS = 1
 	
 class Getter:
@@ -27,11 +27,6 @@ class Getter:
 
     def getMem(self):
         self.mem = str(psutil.virtual_memory().percent)
-
-	def getMem2(self):
-		fm = subprocess.check_output(["free","-m"])
-		vl=[int(i) for i in fm.decode().split('\n')[1].split()[1:]]
-		self.mem = 100-100*(vl[-1]+vl[2])//vl[0]
 
     def getDis(self):
         self.dis = str(psutil.disk_usage(psutil.disk_partitions()[0].mountpoint).percent)
@@ -63,3 +58,7 @@ class Getter:
     def get(self):
         rep = {'cpu': self.cpu, 'mem': self.mem, 'dis': self.dis, 'ip': self.ip, 'memory_available': self.memory_available, 'disk_available': self.disk_available, 'users': self.users, 'procc': self.procc}
         return rep
+
+# g = Getter()
+# g.refresh()
+# print(g.get())
