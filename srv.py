@@ -18,6 +18,19 @@ SDP_PORT = 4095  # Server Discovery Port
 SDP_ADDRESS = "239.255.4.3"
 # SDP_ADDRESS = "224.0.0.251"
 
+
+# ==============================================================================
+#  Generic Functions
+#
+
+def get_local_ip():
+    return [(s.connect(('8.8.8.8', 53)), s.getsockname()[0], s.close()) for s in [socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]][0][1]
+
+# ==============================================================================
+#  Classes Definition
+#
+
+
 class StreamHandler(SocketServer.StreamRequestHandler):
     def handle(self):
         while True:
@@ -143,10 +156,14 @@ class SDPRecv(SocketServer.ThreadingUDPServer):
         # SocketServer.ThreadingTCPServer.__init__(self, (host, port), handler)
         self.kill = 0
         self.timeout = 1
+        self.ip = ''
 
     def create_socket(self, host, port):
-        local_ip = socket.gethostbyname(socket.gethostname())
+        local_ip = get_local_ip()
+        # socket.gethostbyname(socket.gethostname())
         #  TODO: Auto local ip Discovery
+
+        self.ip = local_ip
 
         print(local_ip)
 
@@ -164,11 +181,33 @@ class SDPRecv(SocketServer.ThreadingUDPServer):
         else:
             self.socket.bind((local_ip, port))
 
+    def reply(self, host):
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        # s.bind(('0.0.0.0', SDP_PORT-1))
+        # try:
+        #     s.connect((host, SDP_PORT-1))
+        # except Exception as e:
+        #     print("Connection error : {}".format(e))
+
+        lip = get_local_ip()
+
+        s.sendto(lip.encode(), (host, SDP_PORT-1))
+        print('sent')
+        # s.sendall(bytes(self.ip.encode()))
+        # data = s.recv(1024)
+        # print(repr(data))
+        # s.close()
+
+
+
     def loop_until_end(self):
         kill = 0
         while not kill:
             data, address = self.socket.recvfrom(4096)
             print("a")
+            if len(data.decode().split('.'))==4:
+                print("replying to {}".format(data))
+                self.reply(data)
             print("%s says %s" % (address, data))
             kill = self.kill
 
