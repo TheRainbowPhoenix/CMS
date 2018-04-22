@@ -14,33 +14,25 @@ import socket
 import subprocess
 import threading
 sys.path.insert(0, "lib")
+import CSettings
+from CSettings import CSettings
+from dataIO import fileIO
 
+# Thoses values are here if CSettings got a problem while import, as default values
 
 SERVER = 'localhost'
 PORT = 8833
 SDP_PORT = 4095  # Server Discovery Port
-SDP_ADDRESS = "239.255.4.3"
+SDP_ADDRESS = "239.255.4.6"
 
-class Settings():
-    def __init__(self, server=SERVER, port=PORT, sdp_port=SDP_PORT, sdp_address=SDP_ADDRESS):
-        self.server = server
-        self.port = port
-        self.sdp_port = sdp_port
-        self.sdp_address = sdp_address
-
-    def get_server(self):
-        return self.server
-
-    def get_port(self):
-        return self.port
-
-    def get_sdp_server(self):
-        return (self.sdp_address, self.sdp_port)
-
-    def set_server(self, server):
-        self.server = server
-
-Config = Settings()
+def Get_SDP_ip(Config):
+    a, p = Config.get_sdp_server()
+    SDPTst = SDPSnd(a, p)
+    c = 0
+    SDPL = threading.Thread(SDPListener(SDPTst, Config))
+    SDPL.start()
+    # time.sleep(8)
+    SDPL.join()
 
 
 # ==============================================================================
@@ -50,9 +42,11 @@ Config = Settings()
 def get_local_ip():
     return [(s.connect(('8.8.8.8', 53)), s.getsockname()[0], s.close()) for s in [socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]][0][1]
 
+
 # =============================================================================
 # Server Discovery Stuff
 #
+
 
 class SDPSnd():
     allow_reuse_address = 1
@@ -95,13 +89,50 @@ class SDPSnd():
         time.sleep(8)
 
 
+class Settings(CSettings):
+    def pre_init(self):
+        self.filename = 'cli'
+
+    def file_checks(self, fs):
+        if "server" not in fs:
+            if "sdp" not in fs:
+                print("Invalid file, recreating")
+                fileIO("config/{}.json".format(self.filename), "w", self.s)
+            else:
+                print("Resolving server ip ...")
+                self.get_SDP_ip()
+                if "server" not in self.s:
+                    self.set_server(self.server)
+
+    def get_SDP_ip(self):
+        Get_SDP_ip(self)
+
+    def get_server(self):
+        return self.server
+
+    def get_port(self):
+        return self.port
+
+    def get_sdp_server(self):
+        return (self.sdp_address, self.sdp_port)
+
+    def get_sdp_port(self):
+        return self.sdp_address
+
+    def set_server(self, server):
+        self.s["server"] = server
+        self.s["port"] = self.port
+        self.server = server
+        self.write_config()
+
+
 class CSDPListener():
     def __init__(self):
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
     def run(self):
-        self.s.bind(('0.0.0.0', SDP_PORT-1))
+        self.s.bind(('0.0.0.0', Config.get_sdp_port()-1))
         self.s.listen(10)
         cn, ad = self.s.accept()
         data = cn.revc(1024)
@@ -144,6 +175,7 @@ def SDPListener(SDPTst,Config, c=4):
                 if len(data.decode().split('.'))==4:
                     print("Got server adress ! It is {}".format(data.decode()))
                     Config.set_server(data.decode())
+                    print(Config.get_s())
                     s.shutdown(1)
                     s.close()
                     c=0
@@ -159,17 +191,13 @@ def SDPListener(SDPTst,Config, c=4):
         pass
     s.close()
 
-SDPTst = SDPSnd()
-c = 0
-SDPL = threading.Thread(SDPListener(SDPTst, Config))
-SDPL.start()
-time.sleep(8)
-SDPL.join()
-
-print(Config.get_server())
 # =============================================================================
 # logging Stuff
 #
+
+Config = Settings(CSettings)
+print(Config.get_server())
+print(Config.get_s())
 
 logger = logging.getLogger("CMS")
 logger.setLevel(logging.INFO)
@@ -186,6 +214,8 @@ file_handler = logging.handlers.RotatingFileHandler(
 filename='logs/cms.log', encoding='utf-8', mode='a',
 maxBytes=10**7, backupCount=5)
 file_handler.setFormatter(cms_format)
+
+print(Config.get_server(), Config.get_port())
 
 socket_handler = logging.handlers.SocketHandler(Config.get_server(), Config.get_port())  # TODO: Change this ! (Server)
 #socket_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
